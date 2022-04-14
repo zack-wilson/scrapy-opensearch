@@ -11,12 +11,12 @@ Install scrapy-opensearch using `pip`:
 
 ## Configuration
 
-First, you need to include the extension to your `EXTENSIONS` dict in
+First, you need to enable and include the extension in the `ITEM_PIPELINES` dict in
 `settings.py`, e.g.:
 
     OPENSEARCH_ENABLED = True
 
-    EXTENSIONS = {
+    ITEM_PIPELINES = {
         ...
         'scrapy_opensearch_extension.OpensearchExtension': 123,
         ...
@@ -28,7 +28,7 @@ To configure host settings, you can adjust the following:
 
     OPENSEARCH_HOSTS = 'https://localhost:9200'
 
-The default endpoint for sending opensitemsarch will be:
+The default endpoint for sending opensearch items will be:
 
     http://localhost:9200
 
@@ -43,10 +43,21 @@ Set the desired index:
 
     OPENSEARCH_INDEX = 'scrapy'
 
-You can specify which indexes you want logged if you don't want all
-scrapy opensitemsarch. The default is an empty list which indicates that
-all opensitemsarch should be logged. You can, for example, log only
-downloader and robotstxt exception opensitemsarch by setting
+Additional settings:
+
+    OPENSEARCH_USERNAME = OPENSEARCH_PASSWORD = "admin"
+    OPENSEARCH_USE_SSL = True
+    OPENSEARCH_VERIFY_CERTS = False
+    OPENSEARCH_SSL_SHOW_WARN = False
+    OPENSEARCH_HTTP_COMPRESS = True
+    OPENSEARCH_CA_CERTS = None
+    OPENSEARCH_CLIENT_CERT = None
+    OPENSEARCH_CLIENT_KEY = None
+
+<!-- You can specify which indexes you want logged if you don't want all
+scrapy opensearch items. The default is an empty list which indicates that
+all opensearch items should be logged. You can, for example, log only
+downloader and robotstxt exception opensearch items by setting
 `OPENSEARCH_LOG_ONLY` to `['downloader', 'robotstxt.exception_count']`.
 
     OPENSEARCH_LOG_ONLY = []
@@ -75,4 +86,4 @@ spider's as a tag on all items:
 
 You can also set custom tags by setting `OPENSEARCH_TAGS` attribute on
 each spider. This must be a dictionary containing tag names as keys and
-tag values as dictionary values.
+tag values as dictionary values. -->
