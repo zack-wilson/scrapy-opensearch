@@ -1,0 +1,10 @@
+default:
+  image: python:latest
+stages:
+  - deploy
+deploy-job:
+  stage: deploy
+  script:
+    - pip install --upgrade pip twine build
+    - python -m build
+    - TWINE_PASSWORD=glpat-JttJxfpxvpo242xAwWBt TWINE_USERNAME=scrapy-opensearch python -m twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*

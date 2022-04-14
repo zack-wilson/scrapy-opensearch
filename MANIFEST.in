@@ -1,0 +1,10 @@
+include *.txt
+include *.yaml
+include *.yml
+include Dockerfile
+include pytest.ini
+include scrapy.cfg
+include tox.ini
+recursive-include tests *.py *.sh
+recursive-exclude .vscode *
+exclude .python-version
