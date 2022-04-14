@@ -1,0 +1,32 @@
+# -------- Helm v2 release detection
+# The detect-helm2-release will try to identify if you have any app installed with Helm v2.
+# If so, it will fail the pipeline and ask you to migrate those apps to Helm v3, since
+# the gl-helmfile utility will be using Helm v3 to manage your apps.
+#
+# If this job succeeds, it means you don't have any Helm v2 apps, so you can completely remove
+# the detect-helm2-releases job from your pipeline.
+#
+# By default, the gl-fail-if-helm2-releases-exist utility script is checking for apps possibly
+# installed in the gitlab-managed-apps namespace. If you were using a different namespace, feel
+# free to replace gitlab-managed-apps by whatever that is in the script below.
+#-----------------------------------
+detect-helm2-releases:
+  stage: test
+  image: "registry.gitlab.com/gitlab-org/cluster-integration/cluster-applications:v1.1.0"
+  environment:
+    name: production
+  script:
+    - gl-fail-if-helm2-releases-exist gitlab-managed-apps
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+apply:
+  stage: deploy
+  image: "registry.gitlab.com/gitlab-org/cluster-integration/cluster-applications:v1.1.0"
+  environment:
+    name: production
+  script:
+    - gl-ensure-namespace gitlab-managed-apps
+    - gl-helmfile --file $CI_PROJECT_DIR/helmfile.yaml apply --suppress-secrets
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
