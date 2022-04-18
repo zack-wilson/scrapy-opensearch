@@ -10,5 +10,5 @@ function stop_docker() {
 }
 
 docker-compose up --wait opensearch
-curl --silent --fail -k --retry 3  --retry-all-errors -u admin:admin https://0:9200 || ( stop_docker && exit 1 )
+curl --silent --fail -k --retry 5  --retry-all-errors -u admin:admin https://0:9200 || ( stop_docker && exit 1 )
 docker-compose run scrapy && stop_docker
