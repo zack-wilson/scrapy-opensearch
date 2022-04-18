@@ -5,7 +5,6 @@ include Dockerfile
 include pytest.ini
 include scrapy.cfg
 include tox.ini
-recursive-exclude tests *.py
-recursive-exclude .vscode *
+recursive-exclude tests *
 exclude .python-version
 exclude bin/test
