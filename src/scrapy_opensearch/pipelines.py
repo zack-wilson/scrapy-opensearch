@@ -91,8 +91,10 @@ class OpenSearchPipeline:
             opensearch_http_compress=settings.getbool(
                 "OPENSEARCH_HTTP_COMPRESS", defaults.OPENSEARCH_HTTP_COMPRESS
             ),
-            opensearch_doc_type=settings.get("OPENSEARCH_DOC_TYPE"),
-            opensearch_id=settings.get("OPENSEARCH_ID"),
+            opensearch_doc_type=settings.get(
+                "OPENSEARCH_DOC_TYPE", defaults.OPENSEARCH_DOC_TYPE
+            ),
+            opensearch_id=settings.get("OPENSEARCH_ID", defaults.OPENSEARCH_ID),
         )
         crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
         crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
