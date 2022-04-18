@@ -18,7 +18,7 @@ First, you need to enable and include the extension in the `ITEM_PIPELINES` dict
 
     ITEM_PIPELINES = {
         ...
-        'scrapy_opensearch_extension.OpensearchExtension': 123,
+        'scrapy_opensearch.OpensearchExtension': 123,
         ...
     }
 
@@ -26,7 +26,7 @@ First, you need to enable and include the extension in the `ITEM_PIPELINES` dict
 
 ### Required Settings
 
-To enable the extension you must set:
+To enable the extension, set:
 
     OPENSEARCH_ENABLED = True
 
