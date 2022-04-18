@@ -7,6 +7,7 @@
 # useful for handling different item types with a single interface
 import json
 import logging
+from sqlite3 import adapt
 from typing import Dict, List, Optional, Union
 
 import scrapy
@@ -34,6 +35,8 @@ class OpenSearchPipeline:
         opensearch_client_cert: Optional[str] = None,
         opensearch_client_key: Optional[str] = None,
         opensearch_http_compress: Optional[str] = None,
+        opensearch_doc_type: Optional[str] = None,
+        opensearch_id: Optional[str] = None,
     ):
         if not opensearch_enabled:
             raise NotConfigured
@@ -48,6 +51,8 @@ class OpenSearchPipeline:
             self.opensearch_client_cert = opensearch_client_cert
             self.opensearch_client_key = opensearch_client_key
             self.opensearch_http_compress = opensearch_http_compress
+            self.opensearch_doc_type = opensearch_doc_type
+            self.opensearch_id = opensearch_id
 
     @classmethod
     def from_crawler(cls, crawler: Crawler):
@@ -86,6 +91,8 @@ class OpenSearchPipeline:
             opensearch_http_compress=settings.getbool(
                 "OPENSEARCH_HTTP_COMPRESS", defaults.OPENSEARCH_HTTP_COMPRESS
             ),
+            opensearch_doc_type=settings.get("OPENSEARCH_DOC_TYPE"),
+            opensearch_id=settings.get("OPENSEARCH_ID"),
         )
         crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
         crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
@@ -118,5 +125,11 @@ class OpenSearchPipeline:
         logger.info("closed spider %s", spider.name)
 
     def process_item(self, item, spider):
-        self.client.index(index=self.opensearch_index, body=ItemAdapter(item).asdict())
+        adapter = ItemAdapter(item)
+        body = adapter.asdict()
+        if self.opensearch_id:
+            body["_id"] = self.opensearch_id
+        self.client.index(
+            index=self.opensearch_index, body=body, doc_type=self.opensearch_doc_type
+        )
         return item

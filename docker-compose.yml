@@ -3,14 +3,15 @@ services:
   scrapy:
     image: registry.gitlab.com/zacharywilson/scrapy-opensearch/scrapy-opensearch:latest
     build: .
-    command: crawl -s OPENSEARCH_ENABLED=True dummy_spider
+    command: crawl -s OPENSEARCH_ENABLED=True -s OPENSEARCH_HOSTS=https://opensearch:9200 dummy_spider
     volumes:
       - .:/usr/src/app
     environment:
-      SCRAPY_OPENSEARCH_HOSTS: https://opensearch:9200
+      # SCRAPY_OPENSEARCH_HOSTS: https://opensearch:9200
       SCRAPY_LOG_LEVEL: "DEBUG"
     depends_on:
       - opensearch
+    restart: always
   opensearch:
     image: opensearchproject/opensearch:latest
     container_name: opensearch
