@@ -18,33 +18,36 @@ First, you need to enable and include the extension in the `ITEM_PIPELINES` dict
 
     ITEM_PIPELINES = {
         ...
-        'scrapy_opensearch_extension.OpensearchExtension': 123,
+        'scrapy_opensearch.OpensearchExtension': 123,
         ...
     }
 
 ## Settings
 
-To configure host settings, you can adjust the following:
+### Required Settings
 
-    OPENSEARCH_HOSTS = 'https://localhost:9200'
-
-The default endpoint for sending opensearch items will be:
-
-    http://localhost:9200
-
-To enable the extension you must set:
+To enable the extension, set:
 
     OPENSEARCH_ENABLED = True
+
+To configure host(s) settings, you can adjust the following:
+
+    OPENSEARCH_HOSTS = 'https://0:9200'
+
+The default endpoint for sending items to opensearch is:
+
+    https://0:9200
 
 Periodic logging is enabled by default but you can disable it, in which
 case the items will be logged only once, when a spider is closed.
 
-Set the desired index:
+Set the desired index, e.g.:
 
     OPENSEARCH_INDEX = 'scrapy'
+### Optional Settings
 
-Additional settings:
-
+    OPENSEARCH_DOC_TYPE = None
+    OPENSEARCH_ID = None
     OPENSEARCH_USERNAME = OPENSEARCH_PASSWORD = "admin"
     OPENSEARCH_USE_SSL = True
     OPENSEARCH_VERIFY_CERTS = False
