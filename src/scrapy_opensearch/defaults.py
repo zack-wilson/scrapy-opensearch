@@ -12,3 +12,8 @@ OPENSEARCH_USE_SSL = True
 OPENSEARCH_USERNAME = OPENSEARCH_PASSWORD = "admin"
 OPENSEARCH_VERSION = None
 OPENSEARCH_VERIFY_CERTS = False
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

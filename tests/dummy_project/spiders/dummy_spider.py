@@ -1,4 +1,5 @@
 import datetime as dt
+import uuid
 
 import scrapy
 
@@ -9,4 +10,8 @@ class DummySpiderSpider(scrapy.Spider):
     start_urls = ["http://example.com/"]
 
     def parse(self, response):
-        yield {"timestamp": dt.datetime.now(), "url": response.url}
+        yield {
+            "uuid": uuid.uuid1(),
+            "timestamp": dt.datetime.now(),
+            "url": response.url,
+        }

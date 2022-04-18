@@ -129,9 +129,10 @@ class OpenSearchPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         body = adapter.asdict()
-        if self.opensearch_id:
-            body["_id"] = self.opensearch_id
         self.client.index(
-            index=self.opensearch_index, body=body, doc_type=self.opensearch_doc_type
+            index=self.opensearch_index,
+            body=body,
+            doc_type=self.opensearch_doc_type,
+            id=body.get(self.opensearch_id),
         )
         return item
