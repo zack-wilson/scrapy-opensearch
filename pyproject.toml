@@ -1,5 +1,55 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2", "cython"]
-build-backend = "setuptools.build_meta"
+requires = ["pdm-pep517", "setuptools-scm"]
+build-backend = "pdm.pep517.api"
 
-[tool.setuptools_scm]
+[tool.seuptools_scm]
+
+[tool.pdm]
+version = {source = "scm"}
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[tool.pdm.dev-dependencies]
+lint = [
+  "flake8",
+  "black",
+  "mypy",
+  "pre-commit",
+  "check-manifest"
+]
+test = [
+  "pytest",
+  "pytest-cov",
+  "pytest-asyncio",
+  "tox"
+]
+doc = [
+  "mkdocs"
+]
+dev = [
+  "pipenv",
+  "pipx"
+]
+
+[project]
+name = "scrapy-opensearch"
+description = "Scrapy OpenSearch."
+authors = [
+    {name = "Zachary Wilson", email = "zwilson.development@gmail.com"},
+]
+dependencies = ["scrapy", "opensearch"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+dynamic = ["version"]
+
+[tool.pytest.ini_options]
+addopts = "-ra -q --cov=src --cov-report=term-missing --cov-report=xml:cover/coverage.xml --cov-report=html:cover/html"
+testpaths = "tests"
+asyncio_mode = "auto"
+
+[tool.mypy]
+files = "src"
+exlude = ["tests", "__pypackages__"]
