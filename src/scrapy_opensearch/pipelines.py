@@ -133,6 +133,6 @@ class OpenSearchPipeline:
             index=self.opensearch_index,
             body=body,
             doc_type=self.opensearch_doc_type,
-            id=body.get(self.opensearch_id),
+            id=body.get(self.opensearch_id)
         )
         return item
