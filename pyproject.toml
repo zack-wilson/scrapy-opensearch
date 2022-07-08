@@ -1,5 +1,5 @@
 [build-system]
-requires = ["pdm-pep517", "setuptools-scm"]
+requires = ["pdm-pep517"]
 build-backend = "pdm.pep517.api"
 
 [tool.seuptools_scm]
@@ -11,6 +11,10 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
+[[tool.pdm.source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
 [tool.pdm.dev-dependencies]
 lint = [
   "flake8",
@@ -29,8 +33,10 @@ doc = [
   "mkdocs"
 ]
 dev = [
-  "pipenv",
-  "pipx"
+    "pdm",
+    "pipx",
+    "check-manifest",
+    "pre-commit",
 ]
 
 [project]
@@ -39,7 +45,7 @@ description = "Scrapy OpenSearch."
 authors = [
     {name = "Zachary Wilson", email = "zwilson.development@gmail.com"},
 ]
-dependencies = ["scrapy", "opensearch"]
+dependencies = ["scrapy", "opensearch-py", "-e file:///${PROJECT_ROOT}#egg=scrapy-opensearch"]
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
