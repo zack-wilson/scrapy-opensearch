@@ -44,6 +44,7 @@ case the items will be logged only once, when a spider is closed.
 Set the desired index, e.g.:
 
     OPENSEARCH_INDEX = 'scrapy'
+
 ### Optional Settings
 
     OPENSEARCH_DOC_TYPE = None

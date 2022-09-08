@@ -1,14 +1,27 @@
 #!/usr/bin/env bash
 # Usage: ./bin/test
-set -xeuo pipefail
+set -x -euo pipefail
 
 command -v docker || exit 1
 
+function build {
+    docker-compose build scrapy
+}
 
-function stop_docker() {
+function start() {
+    docker-compose up --wait opensearch
+}
+
+function stop() {
     docker-compose down --remove-orphans --volumes
 }
 
-docker-compose up --wait opensearch
-curl --silent --fail -k --retry 5  --retry-all-errors -u admin:admin https://0:9200 || ( stop_docker && exit 1 )
-docker-compose run scrapy && stop_docker
+function check() {
+    curl --silent --fail -k --retry 10  --retry-all-errors -u admin:admin https://0:9200 || ( stop && exit 1 )
+}
+
+function test() {
+    docker-compose run scrapy
+}
+
+start && check && test && stop
