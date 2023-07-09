@@ -1,4 +1,4 @@
-# Scrapy settings for dummy_project project
+# Scrapy settings for scrapy_project project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "tests.dummy_project"
+BOT_NAME = "scrapy_project.bot"
 
-SPIDER_MODULES = ["tests.dummy_project.spiders"]
-NEWSPIDER_MODULE = "tests.dummy_project.spiders"
+SPIDER_MODULES = ["scrapy_project.spiders"]
+NEWSPIDER_MODULE = "scrapy_project.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'dummy_project (+http://www.yourdomain.com)'
+# USER_AGENT = 'scrapy_project (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -37,33 +37,33 @@ ROBOTSTXT_OBEY = False
 # TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-# DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-# }
+DEFAULT_REQUEST_HEADERS = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en",
+}
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'dummy_project.middlewares.DummyProjectSpiderMiddleware': 543,
-# }
+SPIDER_MIDDLEWARES = {
+    "scrapy_project.middlewares.DummyProjectSpiderMiddleware": 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'dummy_project.middlewares.DummyProjectDownloaderMiddleware': 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    "scrapy_project.middlewares.DummyProjectDownloaderMiddleware": 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-# EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
-# }
+EXTENSIONS = {
+    "scrapy.extensions.telnet.TelnetConsole": None,
+}
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # 'dummy_project.pipelines.DummyProjectPipeline': 300,
+    # 'scrapy_project.pipelines.DummyProjectPipeline': 300,
     "scrapy_opensearch.pipelines.OpenSearchPipeline": 100
 }
 
@@ -88,11 +88,18 @@ ITEM_PIPELINES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-OPENSEARCH_ENABLED = False
-OPENSEARCH_HOSTS = [{"host": "localhost", "port": 9200}]
+OPENSEARCH_ENABLED = True
+OPENSEARCH_HOSTS = [{"host": "opensearch", "port": 9200}]
 OPENSEARCH_USERNAME = OPENSEARCH_PASSWORD = "admin"
-OPENSEARCH_INDEX = "dummy_index"
+OPENSEARCH_INDEX = "scrapy_opensearch_test_index"
 OPENSEARCH_USE_SSL = True
 OPENSEARCH_VERIFY_CERTS = False
 OPENSEARCH_SSL_SHOW_WARN = False
 OPENSEARCH_HTTP_COMPRESS = True  # enables gzip compression for request bodies
+
+FEEDS = {
+    "data/scrapy_project/%(name)s/%(batch_time)s/batch-%(batch_id)s/%(time)s.json.gz": {
+        "format": "jsonlines",
+        "postprocessing": ["scrapy.extensions.postprocessing.GzipPlugin"],
+    },
+}

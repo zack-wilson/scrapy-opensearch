@@ -1,17 +1,24 @@
 version: "3.9"
+
 services:
   scrapy:
     image: registry.gitlab.com/zacharywilson/scrapy-opensearch/scrapy-opensearch:latest
-    build: .
-    command: crawl -s OPENSEARCH_ENABLED=True -s OPENSEARCH_HOSTS=https://opensearch:9200 dummy_spider
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
     volumes:
-      - .:/usr/src/app
+      - ../..:/workspaces:[cached]
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      # SCRAPY_OPENSEARCH_HOSTS: https://opensearch:9200
+      SCRAPY_OPENSEARCH_ENABLED: true
+      SCRAPY_OPENSEARCH_HOSTS: https://opensearch:9200
       SCRAPY_LOG_LEVEL: "DEBUG"
     depends_on:
       - opensearch
     restart: always
+    init: true
+    command: sleep infinity
+
   opensearch:
     image: opensearchproject/opensearch:latest
     container_name: opensearch

@@ -1,5 +1,7 @@
 # scrapy-opensearch
 
+<!-- TODO: Add badges -->
+
 The scrapy-opensearch is a scrapy extension to send scrapy items to
 opensearch.
 
@@ -7,7 +9,7 @@ opensearch.
 
 Install scrapy-opensearch using `pip`:
 
-    $ pip install scrapy-opensearch
+    pip install scrapy-opensearch
 
 ## Configuration
 
@@ -18,7 +20,7 @@ First, you need to enable and include the extension in the `ITEM_PIPELINES` dict
 
     ITEM_PIPELINES = {
         ...
-        'scrapy_opensearch.OpensearchExtension': 123,
+        'scrapy_opensearch.pipelines.OpenSearchPipeline': 123, # modify as needed, e.g. 301
         ...
     }
 

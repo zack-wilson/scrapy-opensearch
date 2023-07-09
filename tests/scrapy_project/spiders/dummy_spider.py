@@ -11,7 +11,8 @@ class DummySpiderSpider(scrapy.Spider):
 
     def parse(self, response):
         yield {
-            "uuid": uuid.uuid1(),
+            "uuid": uuid.uuid1().hex,
             "timestamp": dt.datetime.now(),
             "url": response.url,
+            "title": response.css("title").get(),
         }
