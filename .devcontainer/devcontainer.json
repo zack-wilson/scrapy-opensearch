@@ -1,0 +1,13 @@
+{
+    "name": "Scrapy OpenSearch",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "scrapy",
+    "runServices": [
+        "opensearch"
+    ],
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+    "remoteUser": "scrapy"
+}
