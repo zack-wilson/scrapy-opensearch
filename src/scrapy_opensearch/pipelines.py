@@ -26,7 +26,7 @@ class OpenSearchPipeline:
         self,
         opensearch_index: str,
         opensearch_hosts: Union[str, List[Dict[str, int]]],
-        opensearch_enabled: bool = None,
+        opensearch_enabled: Optional[bool] = None,
         opensearch_username: Optional[str] = None,
         opensearch_password: Optional[str] = None,
         opensearch_use_ssl: Optional[str] = None,
@@ -106,7 +106,7 @@ class OpenSearchPipeline:
             from opensearchpy import OpenSearch
         except ImportError:
             raise NotConfigured("scrapy-opensearch requires installing opensearch-py")
-        self.client = OpenSearch(
+        self.client: OpenSearch = OpenSearch(
             hosts=self.opensearch_hosts,
             http_auth=(self.opensearch_username, self.opensearch_password),
             use_ssl=self.opensearch_use_ssl,
@@ -132,7 +132,6 @@ class OpenSearchPipeline:
         self.client.index(
             index=self.opensearch_index,
             body=body,
-            doc_type=self.opensearch_doc_type,
-            id=body.get(self.opensearch_id)
+            id=body.get(self.opensearch_id),
         )
         return item
