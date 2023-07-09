@@ -35,7 +35,6 @@ class OpenSearchPipeline:
         opensearch_client_cert: Optional[str] = None,
         opensearch_client_key: Optional[str] = None,
         opensearch_http_compress: Optional[str] = None,
-        opensearch_doc_type: Optional[str] = None,
         opensearch_id: Optional[str] = None,
     ):
         if not opensearch_enabled:
@@ -51,7 +50,6 @@ class OpenSearchPipeline:
             self.opensearch_client_cert = opensearch_client_cert
             self.opensearch_client_key = opensearch_client_key
             self.opensearch_http_compress = opensearch_http_compress
-            self.opensearch_doc_type = opensearch_doc_type
             self.opensearch_id = opensearch_id
 
     @classmethod
@@ -90,9 +88,6 @@ class OpenSearchPipeline:
             ),
             opensearch_http_compress=settings.getbool(
                 "OPENSEARCH_HTTP_COMPRESS", defaults.OPENSEARCH_HTTP_COMPRESS
-            ),
-            opensearch_doc_type=settings.get(
-                "OPENSEARCH_DOC_TYPE", defaults.OPENSEARCH_DOC_TYPE
             ),
             opensearch_id=settings.get("OPENSEARCH_ID", defaults.OPENSEARCH_ID),
         )

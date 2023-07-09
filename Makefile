@@ -5,7 +5,7 @@ build:
 	pdm build
 
 test:install
-	./bin/test
+	pdm test
 
 develop:
 	pdm install
