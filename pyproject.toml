@@ -3,7 +3,7 @@ name = "scrapy-opensearch"
 description = "Scrapy OpenSearch."
 authors = [{ name = "Zachary Wilson", email = "zwilson.development@gmail.com" }]
 dependencies = ["scrapy", "opensearch-py"]
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 readme = "README.md"
 license = { text = "MIT" }
 dynamic = ["version"]
